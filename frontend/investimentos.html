@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investimentos - Finanças</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="sidebar">
+        <h2>Gestão Financeira</h2>
+        <a href="index.html">Dashboard</a>
+        <a href="cartoes.html">Cartões</a>
+        <a href="despesas.html">Despesas Fixas</a>
+        <a href="entradas.html">Entradas</a>
+        <a href="metas.html">Metas</a>
+        <a href="investimentos.html" class="active">Investimentos</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="header">
+            <div>
+                <h1>Meus Investimentos</h1>
+                <p style="color: var(--text-light);">Monitore o dinheiro guardado e suas movimentações financeiras.</p>
+            </div>
+            <button onclick="abrirModal('modalInvestimento')" class="btn-header btn-primary">+ Novo Lançamento</button>
+        </div>
+
+        <div class="charts-grid" style="grid-template-columns: 1fr; margin-bottom: 2rem;">
+            <div class="chart-container">
+                <h3>Evolução do Dinheiro Guardado (Acumulado)</h3>
+                <div class="chart-wrapper"><canvas id="graficoInvestimentosPagina"></canvas></div>
+            </div>
+        </div>
+
+        <div class="charts-grid" style="grid-template-columns: 1fr;">
+            <div class="chart-container">
+                <h3>Extrato de Movimentações</h3>
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Investimento</th>
+                            <th>Banco</th>
+                            <th>Tipo</th>
+                            <th>Mês</th>
+                            <th>Valor</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaInvestimentos"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modalInvestimento">
+        <div class="modal-content">
+            <button class="close-modal" onclick="fecharModal('modalInvestimento')">&times;</button>
+            <h3>Lançar Movimentação</h3>
+            <form id="formModalInvestimento" style="margin-top:1rem;">
+                <div class="form-group"><label>Nome do Investimento:</label><input type="text" id="invDesc" required placeholder="Ex: CDB Pós, Tesouro Selic"></div>
+                <div class="form-group"><label>Banco / Corretora:</label><input type="text" id="invBanco" required placeholder="Ex: Inter, Nu Invest"></div>
+                <div class="form-group">
+                    <label>Tipo de Operação:</label>
+                    <select id="invTipo" required style="padding:0.8rem; border:1px solid #E0E5F2; border-radius:8px;">
+                        <option value="Entrada">Aporte (Guardar Dinheiro)</option>
+                        <option value="Retirada">Retirada (Resgatar Dinheiro)</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Mês:</label><input type="month" id="invMes" required></div>
+                <div class="form-group"><label>Valor (R$):</label><input type="number" step="0.01" id="invValor" required></div>
+                <button type="submit" class="btn-submit">Salvar Registro</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

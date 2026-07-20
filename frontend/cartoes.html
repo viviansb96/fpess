@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Cartões - Finanças</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+    <nav class="sidebar">
+        <h2>Gestão Financeira</h2>
+        <a href="index.html">Dashboard</a>
+        <a href="cartoes.html" class="active">Cartões</a>
+        <a href="despesas.html">Despesas Fixas</a>
+        <a href="entradas.html">Entradas</a>
+        <a href="metas.html">Metas</a>
+        <a href="investimentos.html">Investimentos</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="header">
+            <h1>Meus Cartões</h1>
+            <p style="color: var(--text-light);">Gerencie suas faturas e separe gastos de terceiros.</p>
+        </div>
+
+        <div class="kpi-grid" style="grid-template-columns: 1fr; margin-bottom: 2rem;">
+            <div class="kpi-card kpi-red">
+                <h4 style="color: white;">Soma Total das Faturas Informadas - <span id="mesReferenciaCartoes">Mês</span></h4>
+                <h2 id="somaTodosCartoes">R$ 0,00</h2>
+            </div>
+        </div>
+
+        <div class="cartoes-grid" id="containerCartoes">
+            </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

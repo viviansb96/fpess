@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Despesas Fixas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <h2>Gestão Financeira</h2>
+        <a href="index.html">Dashboard</a>
+        <a href="cartoes.html">Cartões</a>
+        <a href="despesas.html" class="active">Despesas Fixas</a>
+        <a href="entradas.html">Entradas</a>
+        <a href="metas.html">Metas</a>
+        <a href="investimentos.html">Investimentos</a>
+    </nav>
+    </nav>
+
+    <main class="main-content">
+        <div class="header">
+            <div>
+                <h1 style="margin-top: 0.5rem;">Despesas Fixas</h1>
+                <p style="color: var(--text-light);">Gerencie seus boletos e assinaturas recorrentes.</p>
+            </div>
+            <button onclick="abrirModalDespesa()" class="btn-header btn-primary">+ Nova Despesa</button>
+        </div>
+
+        <div class="kpi-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 2rem;">
+            <div class="kpi-card kpi-red">
+                <h4 style="color: white;">Total em Boletos (Soma no Gasto Total)</h4>
+                <h2 id="totalBoletos">R$ 0,00</h2>
+            </div>
+            <div class="kpi-card kpi-blue">
+                <h4 style="color: white;">Total em Assinaturas (Controle Visual)</h4>
+                <h2 id="totalAssinaturas">R$ 0,00</h2>
+            </div>
+        </div>
+
+        <div class="charts-grid" style="grid-template-columns: 1fr;">
+            <div class="chart-container">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Vínculo (Cartão)</th>
+                            <th>Valor</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaDespesas">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modalDespesa">
+        <div class="modal-content">
+            <button class="close-modal" onclick="fecharModal('modalDespesa')">&times;</button>
+            <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">Cadastrar Despesa Fixa</h3>
+            <form id="formModalDespesa">
+                
+                <div class="form-group">
+                    <label>Descrição (Ex: Luz, Internet, Netflix):</label>
+                    <input type="text" id="descDespesa" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Valor (R$):</label>
+                    <input type="number" step="0.01" id="valorDespesa" required placeholder="0.00">
+                </div>
+
+                <div class="form-group">
+                    <label>Categoria:</label>
+                    <select id="categoriaDespesa" required onchange="toggleCartaoDespesa()" style="padding: 0.8rem; border: 1px solid #E0E5F2; border-radius: 8px;">
+                        <option value="Boleto">Boleto (Soma no Gasto Total)</option>
+                        <option value="Assinatura">Assinatura (Controle Visual)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="divCartaoVinculado" style="display: none;">
+                    <label>Cartão Vinculado:</label>
+                    <select id="cartaoVinculado" style="padding: 0.8rem; border: 1px solid #E0E5F2; border-radius: 8px;">
+                        <option value="">Selecione um cartão...</option>
+                        </select>
+                </div>
+
+                <button type="submit" class="btn-submit">Salvar Despesa</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

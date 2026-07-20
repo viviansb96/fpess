@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-main: #F4F7FE; /* Fundo cinza claro da imagem */
+    --sidebar-bg: #FFFFFF;
+    --text-dark: #2B3674;
+    --text-light: #A3AED0;
+    --green-kpi: #54CA7E;
+    --red-kpi: #F25C54;
+    --blue-kpi: #3A86FF;
+    --teal-kpi: #48CAE4;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+body { display: flex; min-height: 100vh; background-color: var(--bg-main); color: var(--text-dark); }
+
+/* Menu Lateral */
+.sidebar { width: 260px; background-color: var(--sidebar-bg); padding: 2rem 1.5rem; border-right: 1px solid #E0E5F2; }
+.sidebar h2 { font-size: 1.5rem; color: var(--text-dark); margin-bottom: 2.5rem; text-align: center; font-weight: 700; }
+.sidebar a { display: block; text-decoration: none; color: var(--text-light); padding: 1rem; border-radius: 8px; font-weight: 500; margin-bottom: 0.5rem; transition: 0.3s; }
+.sidebar a:hover, .sidebar a.active { background-color: var(--bg-main); color: var(--blue-kpi); }
+
+/* Conteúdo Central */
+.main-content { flex: 1; padding: 2rem 3rem; overflow-y: auto; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+
+/* Grid de KPIs Superiores (Os cartões coloridos) */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+.kpi-card { padding: 1.5rem; border-radius: 12px; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+.kpi-card h4 { font-size: 0.85rem; font-weight: 500; text-transform: uppercase; margin-bottom: 0.5rem; opacity: 0.9; }
+.kpi-card h2 { font-size: 1.8rem; font-weight: 700; }
+.kpi-green { background-color: var(--green-kpi); }
+.kpi-red { background-color: var(--red-kpi); }
+.kpi-blue { background-color: var(--blue-kpi); }
+.kpi-teal { background-color: var(--teal-kpi); }
+
+/* Área dos Gráficos */
+.charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+.chart-container { background-color: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+.chart-container h3 { font-size: 1.1rem; margin-bottom: 1rem; color: var(--text-dark); }
+
+/* =========================================
+   ESTILOS DA PÁGINA DE CARTÕES E MODAIS
+   ========================================= */
+
+/* Grid de Cartões Separados */
+.cartoes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.cartao-item {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    border: 1px solid #E0E5F2;
+    display: flex;
+    flex-direction: column;
+}
+
+.cartao-item h3 {
+    color: var(--text-dark);
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.cartao-item .datas {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+}
+
+.cartao-acoes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: auto;
+}
+
+.cartao-acoes button {
+    background: var(--bg-main);
+    color: var(--text-dark);
+    border: 1px solid #E0E5F2;
+    padding: 0.7rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: left;
+    font-weight: 500;
+}
+
+.cartao-acoes button:hover {
+    background: var(--blue-kpi);
+    color: white;
+    border-color: var(--blue-kpi);
+}
+
+/* Modais (Popups Modernos) */
+.modal-overlay {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(43, 54, 116, 0.4);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px); /* Efeito de desfoque no fundo */
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    position: relative;
+    animation: slideUp 0.3s ease; /* Animação de entrada */
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close-modal {
+    position: absolute;
+    top: 1.2rem; right: 1.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    transition: 0.2s;
+}
+
+.close-modal:hover { color: var(--red-kpi); }
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+}
+
+.form-group label { font-size: 0.9rem; color: var(--text-dark); font-weight: 500; }
+.form-group input {
+    padding: 0.8rem;
+    border: 1px solid #E0E5F2;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s;
+}
+.form-group input:focus { border-color: var(--blue-kpi); box-shadow: 0 0 0 3px rgba(58,134,255,0.1); }
+
+.btn-submit {
+    background: var(--blue-kpi);
+    color: white;
+    width: 100%;
+    padding: 0.9rem;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 0.5rem;
+}
+.btn-submit:hover { background: #286de0; }
+
+/* Correção do bug de crescimento infinito do Chart.js */
+.chart-wrapper {
+    position: relative;
+    height: 280px; /* Altura travada! */
+    width: 100%;
+}
+
+/* Seletor de Mês (Estilo Pílula) */
+.month-selector-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.month-selector {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: transparent;
+}
+
+.month-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--teal-kpi);
+    cursor: pointer;
+    transition: 0.2s;
+    padding: 0.5rem;
+}
+
+.month-btn:hover { color: var(--blue-kpi); transform: scale(1.1); }
+
+.month-display {
+    border: 2px solid var(--teal-kpi);
+    border-radius: 30px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    color: var(--teal-kpi);
+    text-transform: capitalize;
+    background: white;
+    min-width: 150px;
+    text-align: center;
+}
+
+/* Tabela de Histórico */
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.history-table th, .history-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #E0E5F2;
+}
+
+.history-table th {
+    color: var(--text-light);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.badge {
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.badge-terceiro { background: #FFE5E5; color: #EB5757; }
+.badge-parcela { background: #E5F0FF; color: #3A86FF; }
+
+/* Ajuste nos botões do Header */
+.btn-header {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.btn-primary { background: var(--blue-kpi); color: white; }
+.btn-primary:hover { background: #286de0; }
+.btn-secondary { background: white; color: var(--text-dark); border: 1px solid #E0E5F2; }
+.btn-secondary:hover { background: #f8f9fa; }

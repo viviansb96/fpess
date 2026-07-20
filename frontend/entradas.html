@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Entradas - Finanças</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <h2>Gestão Financeira</h2>
+        <a href="index.html">Dashboard</a>
+        <a href="cartoes.html">Cartões</a>
+        <a href="despesas.html">Despesas Fixas</a>
+        <a href="entradas.html" class="active">Entradas</a>
+        <a href="metas.html">Metas</a>
+        <a href="investimentos.html">Investimentos</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="header">
+            <div>
+                <h1>Minhas Entradas</h1>
+                <p style="color: var(--text-light);">Acompanhe e projete seus salários e rendimentos ativos.</p>
+            </div>
+            <button onclick="abrirModal('modalEntrada')" class="btn-header btn-primary">+ Nova Entrada</button>
+        </div>
+
+        <div class="month-selector-container">
+            <div class="month-selector">
+                <button class="month-btn" onclick="mudarMesEntradas(-1)">&#10094;</button>
+                <div class="month-display" id="displayMesEntradas">Carregando...</div>
+                <button class="month-btn" onclick="mudarMesEntradas(1)">&#10095;</button>
+            </div>
+        </div>
+
+        <div class="kpi-grid" style="grid-template-columns: 1fr; margin-bottom: 2rem;">
+            <div class="kpi-card kpi-green">
+                <h4 style="color: white;">Somatória das Entradas do Mês</h4>
+                <h2 id="kpiSomaEntradas">R$ 0,00</h2>
+            </div>
+        </div>
+
+        <div class="charts-grid" style="grid-template-columns: 1fr;">
+            <div class="chart-container" style="margin-bottom: 2rem;">
+                <h3>Projeção e Evolução de Renda</h3>
+                <div class="chart-wrapper"><canvas id="graficoEvolucaoEntradasPagina"></canvas></div>
+            </div>
+
+            <div class="chart-container">
+                <h3>Lançamentos do Mês Selecionado</h3>
+                <table class="history-table">
+                    <thead><tr><th>Descrição</th><th>Mês de Referência</th><th>Valor</th><th>Ações</th></tr></thead>
+                    <tbody id="tabelaEntradas">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modalEntrada">
+        <div class="modal-content">
+            <button class="close-modal" onclick="fecharModal('modalEntrada')">&times;</button>
+            <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">Lançar Entrada</h3>
+            <form id="formModalEntrada">
+                <div class="form-group">
+                    <label>Descrição (Ex: Salário, Freelance):</label>
+                    <input type="text" id="descEntrada" required>
+                </div>
+                <div class="form-group">
+                    <label>Valor (R$):</label>
+                    <input type="number" step="0.01" id="valorEntrada" required>
+                </div>
+                <div class="form-group">
+                    <label>Mês de Referência:</label>
+                    <input type="month" id="mesEntrada" required>
+                </div>
+                <button type="submit" class="btn-submit">Salvar Entrada</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

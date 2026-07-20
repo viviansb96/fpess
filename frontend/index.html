@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Finanças</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <h2>Gestão Financeira</h2>
+        <a href="index.html" class="active">Dashboard</a>
+        <a href="cartoes.html">Cartões</a>
+        <a href="despesas.html">Despesas Fixas</a>
+        <a href="entradas.html">Entradas</a>
+        <a href="metas.html">Metas</a>
+        <a href="investimentos.html">Investimentos</a>
+    </nav>
+
+<main class="main-content">
+        <div class="header" style="align-items: center;">
+            <h1>Dashboard</h1>
+            
+            <div class="month-selector-container" style="margin-bottom: 0;">
+                <div class="month-selector">
+                    <button class="month-btn" onclick="mudarMesDashboard(-1)">&#10094;</button>
+                    <div class="month-display" id="displayMesDashboard">Junho 2026</div>
+                    <button class="month-btn" onclick="mudarMesDashboard(1)">&#10095;</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card kpi-green">
+                <h4>Saldo do Mês (Entradas - Saídas)</h4>
+                <h2 id="kpiSaldoMes">R$ 0,00</h2>
+            </div>
+            <div class="kpi-card kpi-red">
+                <h4>Gastos Totais (Fixo + Cartão)</h4>
+                <h2 id="kpiGastosTotais">R$ 0,00</h2>
+            </div>
+            <div class="kpi-card kpi-blue">
+                <h4>Salário Esperado</h4>
+                <h2 id="kpiSalarioEsperado">R$ 0,00</h2>
+            </div>
+            <div class="kpi-card kpi-teal">
+                <h4>Meta de Economia</h4>
+                <h2 id="kpiEconomia">R$ 0,00</h2>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3>Evolução de Gastos Totais</h3>
+                <div class="chart-wrapper">
+                    <canvas id="graficoEvolucaoGastos"></canvas>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3>Divisão do Salário</h3>
+                <div class="chart-wrapper">
+                    <canvas id="graficoDivisaoSalario"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3>Evolução de Investimentos</h3>
+                <div class="chart-wrapper">
+                    <canvas id="graficoInvestimentos"></canvas>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h3>% Gasto Entre Cartões</h3>
+                <div class="chart-wrapper">
+                    <canvas id="graficoCartoesPizza"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

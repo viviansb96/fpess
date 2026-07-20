@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Cartão</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <h2>Gestão Financeira</h2>
+        <a href="index.html">Dashboard</a>
+        <a href="cartoes.html" class="active">Cartões</a>
+        <a href="despesas.html">Despesas Fixas</a>
+        <a href="entradas.html">Entradas</a>
+        <a href="metas.html">Metas</a>
+        <a href="investimentos.html">Investimentos</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="header">
+            <div>
+                <a href="cartoes.html" style="color: var(--text-light); text-decoration: none; font-size: 0.9rem;">← Voltar para Cartões</a>
+                <h1 id="tituloCartao" style="margin-top: 0.5rem;">Carregando...</h1>
+                <p id="subtituloDatas" style="color: var(--text-light);"></p>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button onclick="abrirModal('modalFatura')" class="btn-header btn-primary">+ Lançar Fatura Total</button>
+                <button onclick="abrirModal('modalTransacao')" class="btn-header btn-secondary">+ Lançar Transação</button>
+            </div>
+        </div>
+
+        <div class="month-selector-container">
+            <div class="month-selector">
+                <button class="month-btn" onclick="mudarMes(-1)">&#10094;</button>
+                <div class="month-display" id="displayMesAtual">Junho 2026</div>
+                <button class="month-btn" onclick="mudarMes(1)">&#10095;</button>
+            </div>
+        </div>
+
+        <div class="kpi-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 2rem;">
+            <div class="kpi-card" style="background: white; border: 1px solid #E0E5F2; color: var(--text-dark);">
+                <h4 style="color: var(--text-light);">Fatura Total Informada</h4>
+                <h2 id="kpiFaturaTotal">R$ 0,00</h2>
+            </div>
+            <div class="kpi-card kpi-teal">
+                <h4 style="color: white;">Sua Fatura Real (Sem Terceiros/Parcelas)</h4>
+                <h2 id="kpiFaturaReal">R$ 0,00</h2>
+            </div>
+        </div>
+
+        <div class="charts-grid" style="grid-template-columns: 1fr;">
+            <div class="chart-container" style="margin-bottom: 2rem;">
+                <h3>Evolução dos Meus Gastos (Neste Cartão)</h3>
+                <div class="chart-wrapper"><canvas id="graficoEvolucaoCartao"></canvas></div>
+            </div>
+
+            <div class="chart-container">
+                <h3>Histórico de Transações do Mês (Para Controle)</h3>
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Descrição / Quem deve</th>
+                            <th>Tipo</th>
+                            <th>Início</th>
+                            <th>Parcelas</th>
+                            <th>Valor da Parcela</th>
+                            <th>Ações</th> </tr>
+                    </thead>
+                    <tbody id="tabelaHistorico">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modalFatura">
+        <div class="modal-content">
+            <button class="close-modal" onclick="fecharModal('modalFatura')">&times;</button>
+            <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">Lançar Fatura Total</h3>
+            <form id="formModalFatura">
+                <div class="form-group">
+                    <label>Mês de Referência:</label>
+                    <input type="month" id="mesFatura" required>
+                </div>
+                <div class="form-group">
+                    <label>Valor Total da Fatura (R$):</label>
+                    <input type="number" step="0.01" id="valorFatura" required placeholder="0.00">
+                </div>
+                <button type="submit" class="btn-submit">Salvar Fatura</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalTransacao">
+        <div class="modal-content">
+            <button class="close-modal" onclick="fecharModal('modalTransacao')">&times;</button>
+            <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">Lançar Transação</h3>
+            <form id="formModalTransacao">
+                
+                <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; cursor: pointer;">
+                        <input type="checkbox" id="checkTerceiro" onchange="toggleTransacaoFields()"> Gasto de Terceiro
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; cursor: pointer;">
+                        <input type="checkbox" id="checkParcelado" onchange="toggleTransacaoFields()"> Compra Parcelada
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label id="labelDescricao">Descrição da Compra:</label>
+                    <input type="text" id="descTransacao" required placeholder="Ex: Cadeira de escritório">
+                </div>
+
+                <div class="form-group" style="display: flex; gap: 1rem;">
+                    <div style="flex: 1;">
+                        <label>Valor (R$):</label>
+                        <input type="number" step="0.01" id="valorTransacao" required placeholder="0.00" style="width: 100%;">
+                    </div>
+                    <div style="flex: 1; display: none;" id="divParcelas">
+                        <label>Qtd Parcelas:</label>
+                        <input type="number" id="qtdParcelas" min="1" value="1" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Mês de Início:</label>
+                    <input type="month" id="mesTransacao" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Salvar Transação</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalEditarTransacao">
+        <div class="modal-content">
+            <button class="close-modal" onclick="fecharModal('modalEditarTransacao')">&times;</button>
+            <h3 style="margin-bottom: 1.5rem; color: var(--text-dark);">Editar Transação</h3>
+            <form id="formModalEditar">
+                <input type="hidden" id="editId">
+                <input type="hidden" id="editTipo">
+
+                <div class="form-group">
+                    <label>Descrição / Quem deve:</label>
+                    <input type="text" id="editDescricao" required>
+                </div>
+
+                <div class="form-group" style="display: flex; gap: 1rem;">
+                    <div style="flex: 1;">
+                        <label>Valor Parcela (R$):</label>
+                        <input type="number" step="0.01" id="editValor" required style="width: 100%;">
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Qtd Parcelas:</label>
+                        <input type="number" id="editQtdParcelas" min="1" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Mês de Início:</label>
+                    <input type="month" id="editMes" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Atualizar Alterações</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

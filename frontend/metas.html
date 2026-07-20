@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Metas - Finanças</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="sidebar">
+        <h2>Gestão Financeira</h2>
+        <a href="index.html">Dashboard</a>
+        <a href="cartoes.html">Cartões</a>
+        <a href="despesas.html">Despesas Fixas</a>
+        <a href="entradas.html">Entradas</a>
+        <a href="metas.html" class="active">Metas</a>
+        <a href="investimentos.html">Investimentos</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="header">
+            <div>
+                <h1>Metas de Economia</h1>
+                <p style="color: var(--text-light);">Compare seus objetivos com o saldo livre real calculado dinamicamente.</p>
+            </div>
+            <button onclick="abrirModalNovaMeta()" class="btn-header btn-primary">+ Definir Meta</button>
+        </div>
+
+        <div class="charts-grid" style="grid-template-columns: 1fr; margin-bottom: 2rem;">
+            <div class="chart-container">
+                <h3>Meta Definida vs Dinheiro Livre Real</h3>
+                <div class="chart-wrapper"><canvas id="graficoMetasPagina"></canvas></div>
+            </div>
+        </div>
+
+        <div class="charts-grid" style="grid-template-columns: 1fr;">
+            <div class="chart-container">
+                <h3>Histórico Global de Metas</h3>
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Mês</th>
+                            <th>Meta de Economia</th>
+                            <th>Dinheiro Livre Atual</th>
+                            <th>Status/Alerta</th>
+                            <th>Cumprida?</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaMetas"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modalMeta">
+        <div class="modal-content">
+            <button class="close-modal" onclick="fecharModal('modalMeta')">&times;</button>
+            <h3>Definir Objetivo do Mês</h3>
+            <form id="formModalMeta" style="margin-top:1rem;">
+                <div class="form-group">
+                    <label>Mês:</label>
+                    <input type="month" id="mesMeta" required onchange="buscarSaldoDoMes()">
+                </div>
+                
+                <div style="margin-bottom: 1.5rem; padding: 0.8rem; background-color: #F8F9FA; border-radius: 8px; border: 1px solid #E0E5F2;">
+                    <span style="color: var(--text-light); font-size: 0.85rem;">Dinheiro Livre (Projeção do Mês):</span><br>
+                    <strong id="saldoLivreModal" style="color: #3A86FF; font-size: 1.2rem;">Selecione o mês...</strong>
+                </div>
+
+                <div class="form-group">
+                    <label>Valor da Meta (R$):</label>
+                    <input type="number" step="0.01" id="valorMeta" required>
+                </div>
+                <button type="submit" class="btn-submit">Salvar Meta</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
