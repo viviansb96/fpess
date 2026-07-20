@@ -1,3 +1,4 @@
+require('dotenv').config(); // Sempre a primeira linha!
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
@@ -13,22 +14,13 @@ const db = new Pool({
     ssl: { rejectUnauthorized: false }
 });
 
-// Faz o backend entregar os seus arquivos HTML, CSS e JS do frontend
-app.use(express.static(__dirname));
-// Rota principal para carregar o Dashboard ao abrir a URL
+// 1. Diz ao Express que os arquivos visuais estão DENTRO da pasta 'frontend'
+app.use(express.static(path.join(__dirname, 'frontend')));
+
+// 2. Rota principal: ao acessar o site, abre o index.html que está na pasta 'frontend'
 app.get('/', (req, res) => {
-    // Se os seus HTMLs estiverem na mesma pasta do server.js:
-    res.sendFile(path.join(__dirname, 'index.html'));
-    
-    // OBS: Se os seus arquivos HTML estiverem dentro de uma pasta separada, 
-    // comente a linha acima e use a de baixo (trocando 'nome_da_pasta'):
-    // res.sendFile(path.join(__dirname, 'nome_da_pasta', 'index.html'));
+    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
-require('dotenv').config();
-
-
-
-
 
 // ==========================================
 // 2. ROTAS DE RENDIMENTOS
